@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maloti Peak Retreat | A Sanctuary in the Sky</title>
+
+    <!-- Elegant Typography: Cormorant Garamond & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-olive': '#2b3324',
+                        'brand-sand': '#d4c4b7',
+                        'brand-charcoal': '#1a1a1a',
+                        'brand-cream': '#f7f5f0',
+                    },
+                    letterSpacing: {
+                        'widest-lg': '0.2em',
+                        'widest-xl': '0.3em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Cinematic Effects -->
+    <style>
+        body {
+            background-color: #f7f5f0;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* 1. Slow Cinematic Ken Burns Effect */
+        .ken-burns-wrapper {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            background-color: #1a1a1a;
+        }
+        
+        .ken-burns-bg {
+            position: absolute;
+            inset: -5%; /* Buffer for scaling */
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://images.unsplash.com/photo-1518182170546-076616fdcb78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            animation: kenBurns 25s ease-out infinite alternate;
+        }
+
+        @keyframes kenBurns {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* Overlay to ensure text readability & warm luxury tone */
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(26, 26, 26, 0.3) 0%, rgba(43, 51, 36, 0.6) 100%);
+        }
+
+        /* 2. Scroll Reveal Animations (Smooth & Slow) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* 3. Floating Label Input Fields */
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        
+        .floating-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(212, 196, 183, 0.4); /* brand-sand with opacity */
+            padding: 12px 0;
+            font-size: 0.9rem;
+            color: #f7f5f0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            transition: all 0.4s ease;
+        }
+        
+        .floating-input:focus {
+            outline: none;
+            border-bottom-color: #d4c4b7;
+        }
+        
+        .floating-label {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            font-size: 0.9rem;
+            color: #d4c4b7;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Trigger label float on focus or when valid (has text) */
+        .floating-input:focus ~ .floating-label,
+        .floating-input:valid ~ .floating-label,
+        .floating-input[type="date"] ~ .floating-label {
+            top: -12px;
+            font-size: 0.65rem;
+            color: #d4c4b7;
+            letter-spacing: 0.2em;
+        }
+
+        /* Calendar icon styling for date inputs */
+        ::-webkit-calendar-picker-indicator {
+            filter: invert(1) opacity(0.5);
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        ::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+
+        /* 4. Scroll Indicator Animation */
+        @keyframes subtleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+        .scroll-indicator {
+            animation: subtleBounce 2s infinite ease-in-out;
+        }
+
+        /* 5. Image Hover Zooms */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom {
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .img-zoom-container:hover .img-zoom {
+            transform: scale(1.05);
+        }
+
+        /* Navbar transitions */
+        #navbar {
+            transition: background-color 0.6s ease, padding 0.6s ease;
+        }
+        #navbar.scrolled {
+            background-color: #2b3324; /* brand-olive */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-olive selection:text-brand-cream">
+
+    <!-- Sticky Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 py-6 transition-all">
+        <div class="max-w-[90%] mx-auto flex justify-between items-center">
+            
+            <!-- Logo -->
+            <a href="#" class="font-serif text-2xl tracking-widest text-brand-cream uppercase" style="letter-spacing: 0.15em;">
+                Maloti Peak
+            </a>
+            
+            <!-- Actions -->
+            <div class="flex items-center gap-8">
+                <div class="hidden md:flex space-x-8 text-[0.65rem] uppercase tracking-widest-xl font-light text-brand-cream">
+                    <a href="#experience" class="hover:text-brand-sand transition-colors duration-300">The Experience</a>
+                    <a href="#suites" class="hover:text-brand-sand transition-colors duration-300">Suites</a>
+                </div>
+                
+                <a href="#inquiry" class="border border-brand-sand/50 text-brand-sand hover:bg-brand-sand hover:text-brand-olive px-6 py-3 text-[0.65rem] uppercase tracking-widest-xl transition-all duration-500">
+                    Check Availability
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Hero Section (100vh) -->
+    <header class="relative h-screen w-full flex flex-col justify-center items-center">
+        <!-- Ken Burns Background -->
+        <div class="ken-burns-wrapper">
+            <div class="ken-burns-bg"></div>
+        </div>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 hero-overlay z-0"></div>
+
+        <!-- Typography -->
+        <div class="relative z-10 text-center px-4 w-full reveal active">
+            <h2 class="font-sans font-light text-[0.7rem] md:text-xs text-brand-sand uppercase tracking-widest-xl mb-6 md:mb-10">
+                Maloti Peak Retreat, Lesotho
+            </h2>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-[7rem] text-brand-cream leading-[1.1] mb-6 drop-shadow-lg font-light">
+                A Sanctuary <br/><span class="italic">in the Sky.</span>
+            </h1>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-12 z-10 flex flex-col items-center gap-4 scroll-indicator reveal delay-300 active">
+            <span class="font-sans text-[0.6rem] uppercase tracking-widest-xl text-brand-sand/80">Scroll to discover</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-brand-sand/80 to-transparent"></div>
+        </div>
+    </header>
+
+    <!-- The Experience (Intro) Section -->
+    <section id="experience" class="py-32 md:py-48 relative">
+        <div class="max-w-[85%] mx-auto">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
+                
+                <!-- Editorial Text Block -->
+                <div class="lg:col-span-5 lg:pr-12 reveal">
+                    <div class="w-12 h-[1px] bg-brand-olive mb-10"></div>
+                    <h3 class="font-serif text-4xl md:text-5xl text-brand-charcoal mb-8 leading-tight font-light">
+                        Elevated luxury <br/><span class="italic">meets wild terrain.</span>
+                    </h3>
+                    <p class="font-sans font-light text-brand-charcoal/80 leading-loose text-sm mb-6">
+                        Suspended amidst the breathtaking peaks of the Maloti Mountains, our retreat is a masterpiece of slow living. Here, boundaries between the rugged landscape and sumptuous interiors dissolve.
+                    </p>
+                    <p class="font-sans font-light text-brand-charcoal/80 leading-loose text-sm mb-10">
+                        Every stone, textile, and timber has been meticulously chosen to reflect the earthy tones of Lesotho. Surrender to the quiet rhythm of the highlands in spaces designed for utter seclusion and profound comfort.
+                    </p>
+                    <a href="#suites" class="inline-flex items-center gap-4 text-brand-olive hover:text-brand-charcoal uppercase tracking-widest-xl text-[0.65rem] transition-colors group pb-2 border-b border-brand-olive/30 hover:border-brand-charcoal">
+                        Explore Our Spaces
+                    </a>
+                </div>
+
+                <!-- Overlapping Image -->
+                <div class="lg:col-span-7 relative reveal delay-200">
+                    <div class="aspect-[4/3] img-zoom-container">
+                        <!-- Unsplash: Cozy Lodge Interior -->
+                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                             alt="Warm Luxury Interior" 
+                             class="w-full h-full object-cover img-zoom">
+                    </div>
+                    <!-- Delicate accent square -->
+                    <div class="absolute -bottom-8 -left-8 w-32 h-32 border border-brand-sand z-[-1] hidden md:block"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Dividing Line -->
+    <div class="w-full h-[1px] bg-brand-charcoal/10 max-w-[85%] mx-auto"></div>
+
+    <!-- The Suites Section -->
+    <section id="suites" class="py-32 md:py-40">
+        <div class="max-w-[85%] mx-auto">
+            
+            <div class="text-center mb-24 reveal">
+                <span class="font-sans text-[0.65rem] uppercase tracking-widest-xl text-brand-charcoal/50 block mb-4">Curated Rest</span>
+                <h2 class="font-serif text-5xl text-brand-charcoal font-light italic">The Suites</h2>
+            </div>
+
+            <!-- Suite 1: Alternating Layout (Image Left, Text Right) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center mb-32 md:mb-48">
+                
+                <div class="lg:col-span-7 reveal img-zoom-container">
+                    <div class="aspect-[16/10] w-full">
+                        <!-- Unsplash: Luxury Bed -->
+                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80" 
+                             alt="The Mountain Suite" 
+                             class="w-full h-full object-cover img-zoom">
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-5 reveal delay-200 lg:pl-10">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-charcoal mb-4 font-light">The Mountain Suite</h3>
+                    <div class="font-sans text-[0.65rem] uppercase tracking-widest text-brand-olive mb-6">From $450 / Night</div>
+                    <p class="font-sans font-light text-brand-charcoal/80 leading-relaxed text-sm mb-8">
+                        Expansive glass walls pull the dramatic topography of the highlands directly to your bedside. Featuring a deep freestanding soaking tub, a private wood-burning fireplace, and handwoven Basotho throws for cool alpine evenings.
+                    </p>
+                    <a href="#inquiry" class="font-serif italic text-lg text-brand-olive border-b border-brand-olive/30 pb-1 hover:text-brand-charcoal transition-colors">
+                        Discover
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Suite 2: Alternating Layout (Text Left, Image Right) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+                
+                <!-- On mobile, image stays on top. On LG, text is on left (order-1), image on right (order-2) -->
+                <div class="lg:col-span-5 reveal lg:order-1 order-2 lg:pr-10">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-charcoal mb-4 font-light">The Heritage Villa</h3>
+                    <div class="font-sans text-[0.65rem] uppercase tracking-widest text-brand-olive mb-6">From $600 / Night</div>
+                    <p class="font-sans font-light text-brand-charcoal/80 leading-relaxed text-sm mb-8">
+                        Our most generous sanctuary. Built from native stone and timber, this villa offers an expansive private lounge area, an outdoor viewing deck, and a master bedroom deeply rooted in earthy elegance.
+                    </p>
+                    <a href="#inquiry" class="font-serif italic text-lg text-brand-olive border-b border-brand-olive/30 pb-1 hover:text-brand-charcoal transition-colors">
+                        Discover
+                    </a>
+                </div>
+
+                <div class="lg:col-span-7 reveal delay-200 lg:order-2 order-1 img-zoom-container">
+                    <div class="aspect-[16/10] w-full">
+                        <!-- Unsplash: Lodge Lounge/View -->
+                        <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                             alt="The Heritage Villa Lounge" 
+                             class="w-full h-full object-cover img-zoom">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Inquiry / Booking Form Section -->
+    <section id="inquiry" class="bg-brand-olive py-32">
+        <div class="max-w-[85%] lg:max-w-4xl mx-auto">
+            
+            <div class="text-center mb-16 reveal">
+                <span class="font-sans text-[0.65rem] uppercase tracking-widest-xl text-brand-sand block mb-4">Begin Your Journey</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-cream font-light italic">Reserve a Sanctuary</h2>
+            </div>
+
+            <form class="reveal delay-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                    
+                    <div class="input-group">
+                        <!-- Required attribute triggers the :valid pseudo-class once typed in -->
+                        <input type="text" id="first-name" class="floating-input" required>
+                        <label for="first-name" class="floating-label">First Name</label>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="text" id="last-name" class="floating-input" required>
+                        <label for="last-name" class="floating-label">Last Name</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="email" id="email" class="floating-input" required>
+                        <label for="email" class="floating-label">Email Address</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="tel" id="phone" class="floating-input" required>
+                        <label for="phone" class="floating-label">Phone Number</label>
+                    </div>
+
+                    <div class="input-group">
+                        <!-- Date inputs naturally hold a value/placeholder, so CSS will keep label elevated -->
+                        <input type="date" id="arrival" class="floating-input" required>
+                        <label for="arrival" class="floating-label">Expected Arrival</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="date" id="departure" class="floating-input" required>
+                        <label for="departure" class="floating-label">Expected Departure</label>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <button type="button" class="bg-brand-sand text-brand-olive font-sans text-[0.65rem] uppercase tracking-widest-xl px-12 py-5 hover:bg-brand-cream transition-colors duration-500">
+                        Submit Inquiry
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- Minimalist Footer -->
+    <footer class="bg-brand-charcoal py-20 text-brand-cream text-center relative overflow-hidden">
+        
+        <!-- Very faint background texture/logo suggestion -->
+        <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+            <span class="font-serif text-[20rem] italic">M</span>
+        </div>
+
+        <div class="relative z-10 max-w-[85%] mx-auto">
+            <h2 class="font-serif text-3xl uppercase tracking-[0.2em] mb-10 text-brand-sand">Maloti Peak</h2>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-10 font-sans font-light text-[0.65rem] uppercase tracking-widest-xl text-brand-cream/60 mb-16">
+                <a href="#" class="hover:text-brand-sand transition-colors">info@malotipeak.co.ls</a>
+                <span class="hidden md:inline">|</span>
+                <a href="#" class="hover:text-brand-sand transition-colors">+266 2231 4000</a>
+                <span class="hidden md:inline">|</span>
+                <p>Maseru, Lesotho</p>
+            </div>
+
+            <p class="font-sans font-light text-[0.55rem] uppercase tracking-widest text-brand-cream/40">
+                &copy; 2026 Maloti Peak Retreat. Elegantly Crafted.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Vanilla JS for Interactions -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            /* 1. Sticky Navbar Transition */
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                // Change navbar background after scrolling past 100px
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            /* 2. Scroll Reveal Observer */
+            const revealOptions = {
+                threshold: 0.1,    // Trigger when 10% of element is visible
+                rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the exact bottom
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed to only animate once
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, revealOptions);
+
+            // Select all elements with the 'reveal' class
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            revealElements.forEach(el => {
+                // If it's already in viewport on load (like hero), keep it active
+                // Otherwise, let the observer handle it
+                if (!el.classList.contains('active')) {
+                    revealObserver.observe(el);
+                }
+            });
+
+            /* 3. Setup default dates for the form */
+            const arrivalInput = document.getElementById('arrival');
+            const departureInput = document.getElementById('departure');
+            
+            if (arrivalInput && departureInput) {
+                const today = new Date();
+                const tomorrow = new Date();
+                tomorrow.setDate(today.getDate() + 1);
+                
+                arrivalInput.value = today.toISOString().split('T')[0];
+                departureInput.value = tomorrow.toISOString().split('T')[0];
+            }
+        });
+    </script>
+</body>
+</html>
